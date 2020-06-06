@@ -11,10 +11,9 @@ class SortingVisualizer extends Component {
 
     this.state = {
       list: [],
-      numberOfBars: 100,
       widthOfBars: 8,
       width: 0,
-      height: 0,
+      numberOfBars: 100,
     };
 
     this.bubbleSortImp = this.bubbleSortImp.bind(this);
@@ -38,11 +37,12 @@ class SortingVisualizer extends Component {
     window.removeEventListener("resize", this.randomArray);
   }
   updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
+    this.setState({ width: window.innerWidth });
   }
 
   updateNumberOfBars() {
     let num = Math.floor(this.state.width / 15);
+    console.log("num ", num);
     this.setState({ numberOfBars: num });
   }
 
@@ -74,8 +74,6 @@ class SortingVisualizer extends Component {
   }
 
   render() {
-    console.log(this.state.numberOfBars);
-    console.log(this.state.width);
     return (
       <>
         <div className="sortingVisualizer">
