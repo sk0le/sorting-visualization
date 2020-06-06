@@ -10,6 +10,9 @@ const bubbleSort = (arr) => {
         swap(arr, j, j + 1);
       }
     }
+  } else {
+    i = 0;
+    return;
   }
   i++;
 };

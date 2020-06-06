@@ -11,39 +11,46 @@ class SortingVisualizer extends Component {
 
     this.state = {
       list: [],
-      widthOfBars: 8,
-      width: 0,
       numberOfBars: 100,
+      widthOfBars: 8,
+      width: window.innerWidth,
+      height: window.innerHeight,
     };
 
     this.bubbleSortImp = this.bubbleSortImp.bind(this);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    this.updateNumberOfBars = this.updateNumberOfBars.bind(this);
     this.randomArray = this.randomArray.bind(this);
   }
+
+  getDerivedStateFromProps = (nextProps, prevState) => {
+    if (
+      prevState.width !== window.innerWidth ||
+      prevState.height !== window.innerHeight
+    ) {
+      return {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    }
+  };
 
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
-    this.updateNumberOfBars();
-    window.addEventListener("resize", this.updateNumberOfBars);
     this.randomArray();
-    window.addEventListener("resize", this.randomArray);
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWindowDimensions);
-    window.removeEventListener("resize", this.updateNumberOfBars);
-    window.removeEventListener("resize", this.randomArray);
   }
   updateWindowDimensions() {
-    this.setState({ width: window.innerWidth });
-  }
-
-  updateNumberOfBars() {
-    let num = Math.floor(this.state.width / 15);
-    console.log("num ", num);
-    this.setState({ numberOfBars: num });
+    const width = window.innerWidth;
+    let num = Math.floor(width / 15);
+    this.setState(() => ({
+      width,
+      height: window.innerHeight,
+      numberOfBars: num,
+    }));
   }
 
   randomArray() {
@@ -52,7 +59,7 @@ class SortingVisualizer extends Component {
       arr.push(this.randomNumber());
     }
 
-    this.setState({ list: [...arr] });
+    this.setState(() => ({ list: [...arr] }));
   }
 
   randomNumber() {
@@ -69,11 +76,13 @@ class SortingVisualizer extends Component {
     for (let i = 0; i < this.state.numberOfBars; i++) {
       await sleep(50);
       bubbleSort(arr, 0, len - 1);
-      this.setState({ list: [...arr] });
+      this.setState(() => ({ list: [...arr] }));
     }
   }
 
   render() {
+    console.log(this.state.numberOfBars);
+    console.log(this.state.width);
     return (
       <>
         <div className="sortingVisualizer">
