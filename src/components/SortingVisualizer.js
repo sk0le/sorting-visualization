@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import bubbleSort from "../algorithms/bubbleSort";
+import Navbar from "./Navbar";
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -11,46 +12,17 @@ class SortingVisualizer extends Component {
 
     this.state = {
       list: [],
-      numberOfBars: 100,
-      widthOfBars: 8,
-      width: window.innerWidth,
-      height: window.innerHeight,
+      numberOfBars: 10,
     };
 
     this.bubbleSortImp = this.bubbleSortImp.bind(this);
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.randomArray = this.randomArray.bind(this);
+    this.restartArray = this.restartArray.bind(this);
+    this.onChangeNumberOfBars = this.onChangeNumberOfBars.bind(this);
   }
-
-  getDerivedStateFromProps = (nextProps, prevState) => {
-    if (
-      prevState.width !== window.innerWidth ||
-      prevState.height !== window.innerHeight
-    ) {
-      return {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    }
-  };
 
   componentDidMount() {
-    this.updateWindowDimensions();
-    window.addEventListener("resize", this.updateWindowDimensions);
     this.randomArray();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateWindowDimensions);
-  }
-  updateWindowDimensions() {
-    const width = window.innerWidth;
-    let num = Math.floor(width / 15);
-    this.setState(() => ({
-      width,
-      height: window.innerHeight,
-      numberOfBars: num,
-    }));
   }
 
   randomArray() {
@@ -59,7 +31,7 @@ class SortingVisualizer extends Component {
       arr.push(this.randomNumber());
     }
 
-    this.setState(() => ({ list: [...arr] }));
+    this.setState({ list: [...arr] });
   }
 
   randomNumber() {
@@ -67,6 +39,27 @@ class SortingVisualizer extends Component {
 
     return randomIndex;
   }
+
+  restartArray() {
+    let arr = [];
+    for (let i = 0; i < this.state.numberOfBars; i++) {
+      arr.push(this.randomNumber());
+    }
+
+    this.setState(() => ({ list: [...arr] }));
+  }
+
+  onChangeNumberOfBars(event) {
+    this.setState(
+      {
+        numberOfBars: event.target.value,
+      },
+      () => {
+        this.randomArray();
+      }
+    );
+  }
+
   async bubbleSortImp(e) {
     e.preventDefault();
 
@@ -81,16 +74,16 @@ class SortingVisualizer extends Component {
   }
 
   render() {
-    console.log(this.state.numberOfBars);
-    console.log(this.state.width);
+    console.log(this.state.widthOfBars);
     return (
       <>
+        <Navbar />
         <div className="sortingVisualizer">
           {this.state.list.map((number, index) => (
             <div
               key={index}
               style={{
-                height: `${number}` * 5,
+                height: number * 5,
                 width: this.state.widthOfBars,
               }}
               className="visualize"
@@ -99,8 +92,24 @@ class SortingVisualizer extends Component {
         </div>
         <div className="buttons">
           <button className="btn" onClick={this.bubbleSortImp}>
-            Bubble Sort
+            Sort
           </button>
+          <button className="btn" onClick={this.restartArray}>
+            Reset array
+          </button>
+          <div className="numberOfBarsInput">
+            <label for="inputnumberofbars" className="labelforinput">
+              Number Of Bars
+            </label>
+            <input
+              type="text"
+              placeholder="Please enter number of bars"
+              className="inputnumberofbars"
+              id="inputnumberofbars"
+              defaultValue={this.state.numberOfBars}
+              onChange={this.onChangeNumberOfBars}
+            />
+          </div>
         </div>
       </>
     );
