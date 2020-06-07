@@ -74,7 +74,6 @@ class SortingVisualizer extends Component {
   }
 
   render() {
-    console.log(this.state.widthOfBars);
     return (
       <>
         <Navbar />
@@ -84,7 +83,7 @@ class SortingVisualizer extends Component {
               key={index}
               style={{
                 height: number * 5,
-                width: this.state.widthOfBars,
+                width: 15,
               }}
               className="visualize"
             ></div>
