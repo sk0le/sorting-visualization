@@ -2,6 +2,10 @@
 
 ![Image of webiste](https://i.ibb.co/m6yPcDT/Screenshot-3.png)
 
+## Description about website
+
+#### Visualizing sorting algortihms, and more functionality to it
+
 ## How to install
 
 ```bash
