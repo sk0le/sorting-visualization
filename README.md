@@ -2,6 +2,10 @@
 
 ![Image of webiste](https://i.ibb.co/m6yPcDT/Screenshot-3.png)
 
+## How to access website
+
+#### [Link to website](https://goofy-sinoussi-11ea81.netlify.app/)
+
 ## Description about website
 
 #### Visualizing sorting algortihms, and more functionality to it
